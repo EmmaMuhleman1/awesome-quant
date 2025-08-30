@@ -122,8 +122,7 @@ with open('README.md', 'r', encoding='utf8') as f:
         m = rex.match(line)
         if m:
             p = Project(m, ' > '.join(m_titles[1:]))
-            p.start()
-            projects.append(p)
+            projects.append(p)  # Don't start threads yet
         else:
             m = ret.match(line)
             if m:
@@ -159,7 +158,9 @@ for i in range(0, len(projects), batch_size):
         print('Batch complete. Waiting before next batch...')
         time.sleep(2)
 
-projects = [p.regs for p in projects]
+projects = [p.regs for p in projects if p.regs is not None]
 df = pd.DataFrame(projects)
+print(f'Successfully processed {len(projects)} projects.')
 df.to_csv('site/projects.csv', index=False)
+print('CSV file updated successfully.')
 # df.to_markdown('projects.md', index=False)
