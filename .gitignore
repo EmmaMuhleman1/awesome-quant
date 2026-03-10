@@ -2,4 +2,4 @@ env.ps1
 .vscode
 /.quarto/
 github.ipynb
-build.sh
+build.sh__pycache__/
